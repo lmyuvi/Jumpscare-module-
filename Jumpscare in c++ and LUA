@@ -1,0 +1,47 @@
+--//by Yuvi//
+
+print("First Person Script by GRS")
+
+--//Input in replicate storage
+
+local Intensity = 7
+
+local xMagnitude = .5
+local yMagnitude = .5
+
+local plr = game:GetService("Players")
+local rs = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+
+local player = plr.LocalPlayer
+local cam = workspace.CurrentCamera
+local char = player.Character or player.CharacterAdded:Wait()
+local hum = char:WaitForChild("Humanoid")
+
+--//Setups
+
+player.CameraMaxZoomDistance = 0
+player.CameraMinZoomDistance = 0
+
+--//Functions
+
+function update()
+	local currentTime = tick()
+	if hum.MoveDirection.Magnitude > 0.5 then
+		local x = math.cos(currentTime * Intensity) * xMagnitude
+		local y = math.abs(math.sin(currentTime * Intensity)) * yMagnitude
+
+		local bobble = Vector3.new(x,y, 0.5)
+
+		hum.CameraOffset = hum.CameraOffset:lerp(bobble, .25)
+
+		return
+	end
+	hum.CameraOffset *= .75
+end
+
+--//Connections
+
+RunService.RenderStepped:Connect(update)
+
+--//by Yuvi//
